@@ -20,6 +20,7 @@ private slots:
     void on_rb90_clicked(void);
     void on_rb180_clicked(void);
     void on_rb270_clicked(void);
+	void on_wEditor_tuilleChange(const SCase& tuille);
 };
 //-----------------------------------------------------------------------------------
 #endif // __CMAINWINDOW_H__

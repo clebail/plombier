@@ -31,6 +31,8 @@ private:
     CGame game;
 
     QImage rotate(const QImage& image, ECaseOption option);
+signals:
+	void tuilleChange(const SCase& tuille);
 };
 //-----------------------------------------------------------------------------------
 #endif // __CWEDITOR_H__

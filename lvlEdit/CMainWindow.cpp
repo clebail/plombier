@@ -1,4 +1,5 @@
 //-----------------------------------------------------------------------------------
+#include <QtDebug>
 #include "CMainWindow.h"
 //-----------------------------------------------------------------------------------
 CMainWindow::CMainWindow(QWidget *parent) : QMainWindow(parent) {
@@ -62,3 +63,17 @@ void CMainWindow::on_rb270_clicked(void) {
     wEditor->setFocus();
 }
 //-----------------------------------------------------------------------------------
+void CMainWindow::on_wEditor_tuilleChange(const SCase& tuille) {
+	rb0->setChecked(true);
+	if((tuille.option & ecoR90) == ecoR90) {
+		rb90->setChecked(true);
+	}
+	if((tuille.option & ecoR180) == ecoR180) {
+		rb180->setChecked(true);
+	}
+	if((tuille.option & ecoR270) == ecoR270) {
+		rb270->setChecked(true);
+	}
+}
+//-----------------------------------------------------------------------------------
+

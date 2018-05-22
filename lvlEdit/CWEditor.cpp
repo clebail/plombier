@@ -21,6 +21,8 @@ void CWEditor::haut(void) {
     if(y) {
         y--;
         repaint();
+		
+		emit(tuilleChange(game.getCase(x, y)));
     }
 }
 //-----------------------------------------------------------------------------------
@@ -28,6 +30,8 @@ void CWEditor::droite(void) {
     if(x < NB_COLONNE - 1) {
         x++;
         repaint();
+		
+		emit(tuilleChange(game.getCase(x, y)));
     }
 
 }
@@ -36,6 +40,8 @@ void CWEditor::bas(void) {
     if(y < NB_LIGNE - 1) {
         y++;
         repaint();
+		
+		emit(tuilleChange(game.getCase(x, y)));
     }
 }
 //-----------------------------------------------------------------------------------
@@ -43,6 +49,8 @@ void CWEditor::gauche(void) {
     if(x) {
         x--;
         repaint();
+		
+		emit(tuilleChange(game.getCase(x, y)));
     }
 }
 //-----------------------------------------------------------------------------------
@@ -76,31 +84,31 @@ void CWEditor::paintEvent(QPaintEvent *) {
     for(y=idx=0;y<NB_LIGNE;y++) {
         for(x=0;x<NB_COLONNE;x++,idx++) {
             SCase tuille = game.getCase(idx);
-            QImage pixmap;
+            QImage img;
 
             switch(tuille.type) {
             case MUR:
-                pixmap = rotate(QImage(picts[MUR]), tuille.option);
+                img = rotate(QImage(picts[MUR]), tuille.option);
                 break;
             case CROIX:
-                pixmap = rotate(QImage(picts[CROIX]), tuille.option);
+                img = rotate(QImage(picts[CROIX]), tuille.option);
                 break;
             case DEPART:
-                pixmap = rotate(QImage(picts[DEPART]), tuille.option);
+                img = rotate(QImage(picts[DEPART]), tuille.option);
                 break;
             case DQUART:
-                pixmap = rotate(QImage(picts[DQUART]), tuille.option);
+                img = rotate(QImage(picts[DQUART]), tuille.option);
                 break;
             case HORIZ:
-                pixmap = rotate(QImage(picts[HORIZ]), tuille.option);
+                img = rotate(QImage(picts[HORIZ]), tuille.option);
                 break;
             case QUART:
-                pixmap = rotate(QImage(picts[QUART]), tuille.option);
+                img = rotate(QImage(picts[QUART]), tuille.option);
                 break;
             }
 
-            if(!pixmap.isNull()) {
-                painter.drawImage(x * CASE_WIDTH, y * CASE_HEIGHT, pixmap);
+            if(!img.isNull()) {
+                painter.drawImage(x * CASE_WIDTH, y * CASE_HEIGHT, img);
             }
         }
     }
@@ -133,20 +141,21 @@ void CWEditor::keyPressEvent(QKeyEvent *event) {
 QImage CWEditor::rotate(const QImage &image, ECaseOption option) {
     QMatrix matrix;
     QImage result = image;
+	QPoint center = image.rect().center();
 
-    matrix.translate(CASE_WIDTH / 2, CASE_HEIGHT / 2);
+    matrix.translate(center.x(), center.y());
 
-    if(option & ecoR90 == ecoR90) {
+    if((option & ecoR90) == ecoR90) {
         matrix.rotate(90);
         result = image.transformed(matrix);
     }
 
-    if(option & ecoR180 == ecoR180) {
+    if((option & ecoR180) == ecoR180) {
         matrix.rotate(180);
         result =  image.transformed(matrix);
     }
 
-    if(option & ecoR270 == ecoR270) {
+    if((option & ecoR270) == ecoR270) {
         matrix.rotate(270);
         result =  image.transformed(matrix);
     }
