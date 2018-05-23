@@ -118,40 +118,48 @@ void CGame::melange(int step) {
 
                 if((plateau[idx].option & ecoBouge) == ecoBouge) {
                     bool fini = false;
+                    bool hasDo[4] = {false, false, false, false};
+                    int nbDo = 0;
 
                     while(!fini) {
                         int sens = rand() % 4;
 
-                        switch(sens) {
-                            case 0: //haut
-                            if(y && plateau[idx-NB_COLONNE].type == 0) {
-                                fini = true;
+                        if(!hasDo[sens]) {
+                            switch(sens) {
+                                case 0: //haut
+                                if(y && plateau[idx-NB_COLONNE].type == 0) {
+                                    fini = true;
 
-                                move(idx, idx-NB_COLONNE);
-                            }
-                            break;
-                            case 1: //droite
-                            if(x < NB_COLONNE - 1 && plateau[idx+1].type == 0) {
-                                fini = true;
+                                    move(idx, idx-NB_COLONNE);
+                                }
+                                break;
+                                case 1: //droite
+                                if(x < NB_COLONNE - 1 && plateau[idx+1].type == 0) {
+                                    fini = true;
 
-                                move(idx, idx+1);
-                            }
-                            break;
-                            case 2: //bas
-                            if(y < NB_LIGNE - 1 && plateau[idx+NB_COLONNE].type == 0) {
-                                fini = true;
+                                    move(idx, idx+1);
+                                }
+                                break;
+                                case 2: //bas
+                                if(y < NB_LIGNE - 1 && plateau[idx+NB_COLONNE].type == 0) {
+                                    fini = true;
 
-                                move(idx, idx+NB_COLONNE);
-                            }
-                            break;
-                            case 3: //gauche
-                            if(x && plateau[idx-1].type == 0) {
-                                fini = true;
+                                    move(idx, idx+NB_COLONNE);
+                                }
+                                break;
+                                case 3: //gauche
+                                if(x && plateau[idx-1].type == 0) {
+                                    fini = true;
 
-                                move(idx, idx-1);
+                                    move(idx, idx-1);
+                                }
+                                break;
                             }
-                            break;
+                            nbDo++;
+                            hasDo[sens] = true;
                         }
+
+                        fini = nbDo == 4;
                     }
                 }
             }
