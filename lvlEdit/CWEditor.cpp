@@ -84,7 +84,10 @@ void CWEditor::setOption(ECaseOption option, bool value) {
 void CWEditor::init(void) {
     game.init();
 
+    x = y = 0;
+
     repaint();
+    emit(tuilleChange(game.getCase(x, y)));
 }
 //-----------------------------------------------------------------------------------
 void CWEditor::load(QString fileName) {
@@ -105,7 +108,7 @@ void CWEditor::melange(int step) {
 //-----------------------------------------------------------------------------------
 void CWEditor::paintEvent(QPaintEvent *) {
     QPainter painter(this);
-    QPen cursorPen(Qt::red);
+    QPen cursorPen(Qt::white);
     int x, y, idx;
 
     for(y=idx=0;y<NB_LIGNE;y++) {
@@ -140,10 +143,10 @@ void CWEditor::paintEvent(QPaintEvent *) {
         }
     }
 
-    cursorPen.setStyle(Qt::DashLine);
-    cursorPen.setWidth(2);
+    cursorPen.setStyle(Qt::DotLine);
+    cursorPen.setWidth(3);
     painter.setPen(cursorPen);
-    painter.drawRect(this->x * CASE_WIDTH + 2, this->y * CASE_HEIGHT + 2, CASE_WIDTH - 4, CASE_HEIGHT - 4);
+    painter.drawRect(this->x * CASE_WIDTH + 5, this->y * CASE_HEIGHT + 5, CASE_WIDTH - 10, CASE_HEIGHT - 10);
 
 }
 //-----------------------------------------------------------------------------------
@@ -171,6 +174,7 @@ void CWEditor::mousePressEvent(QMouseEvent *event) {
     y = event->y() / CASE_HEIGHT;
 
     repaint();
+    emit(tuilleChange(game.getCase(x, y)));
 }
 //-----------------------------------------------------------------------------------
 QImage CWEditor::rotate(const QImage &image, ECaseOption option) {

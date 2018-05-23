@@ -111,6 +111,7 @@ void CMainWindow::on_wEditor_tuilleChange(const SCase& tuille) {
 //-----------------------------------------------------------------------------------
 void CMainWindow::on_actionNouveau_triggered(bool) {
     wEditor->init();
+    wEditor->setFocus();
 }
 //-----------------------------------------------------------------------------------
 void CMainWindow::on_actionOuvrir_triggered(bool) {
@@ -118,7 +119,7 @@ void CMainWindow::on_actionOuvrir_triggered(bool) {
     if(fileName != "") {
         wEditor->load(fileName);
     }
-
+    wEditor->setFocus();
 }
 //-----------------------------------------------------------------------------------
 void CMainWindow::on_actionEnregistrer_triggered(bool) {
@@ -126,6 +127,7 @@ void CMainWindow::on_actionEnregistrer_triggered(bool) {
     if(fileName != "") {
         wEditor->write(fileName);
     }
+    wEditor->setFocus();
 }
 //-----------------------------------------------------------------------------------
 void CMainWindow::on_pbMelange_pressed(void) {
@@ -135,6 +137,8 @@ void CMainWindow::on_pbMelange_pressed(void) {
     if(step != 0) {
         wEditor->melange(step);
     }
+
+    wEditor->setFocus();
 }
 //-----------------------------------------------------------------------------------
 

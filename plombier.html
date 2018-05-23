@@ -1,0 +1,419 @@
+<html>
+	<head>
+		<style>
+			.game-plombier .plombier {
+				display: table;
+				margin: auto;
+				background: transparent url(image/fond.png) repeat;
+			}
+			.game-plombier .plombier .tuille {
+				width: 96px;
+				height: 96px;
+				border: none;
+				padding: 0;
+				margin: 0;
+				display: table-cell;
+				position: relative;
+			}
+			
+			.game-plombier .plombier .tuille.mur {
+				background: transparent url(image/mur.png) no-repeat;
+			}
+			
+			.game-plombier .plombier .tuille.croix {
+				background: transparent url(image/tCroix.png) no-repeat;
+			}
+			
+			.game-plombier .plombier .tuille.bout {
+				background: transparent url(image/tDepartFin.png) no-repeat;
+			}
+			
+			.game-plombier .plombier .tuille.doubleQuart {
+				background: transparent url(image/tDQuart.png) no-repeat;
+			}
+			
+			.game-plombier .plombier .tuille.droit {
+				background: transparent url(image/tHorizontal.png) no-repeat;
+			}
+			
+			.game-plombier .plombier .tuille.quart {
+				background: transparent url(image/tQuart.png) no-repeat;
+			}
+			
+			.game-plombier .plombier .tuille.rot90 {
+				-webkit-transform: rotate(90deg);
+				-moz-transform: rotate(90deg);
+				-ms-transform: rotate(90deg);
+				-o-transform: rotate(90deg);
+				transform: rotate(90deg);
+			}
+			
+			.game-plombier .plombier .tuille.rot180 {
+				-webkit-transform: rotate(180deg);
+				-moz-transform: rotate(180deg);
+				-ms-transform: rotate(180deg);
+				-o-transform: rotate(180deg);
+				transform: rotate(180deg);
+			}
+			
+			.game-plombier .plombier .tuille.rot270 {
+				-webkit-transform: rotate(270deg);
+				-moz-transform: rotate(270deg);
+				-ms-transform: rotate(270deg);
+				-o-transform: rotate(270deg);
+				transform: rotate(270deg);
+			}
+			
+			.game-plombier .plombier .tuille.select:after {
+ 				content: "";
+ 				position: absolute;
+ 				top: 5px;
+ 				left: 5px;
+				width: 81px;
+				height: 81px;
+				border: 3px dashed white;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script>
+const NB_LIGNE = 7;
+const NB_COLONNE = 7;
+
+const tuilles = {
+	"M": null,
+	"0": null,
+	"+": [ [0, 2], [1, 3] ],
+	"T": [ [2, 2] ],
+	"X": [ [0, 1], [2, 3] ],
+	"-": [ [1, 3] ],
+	"r": [ [2, 3] ],
+};
+
+var test = [
+{ "type": "M", "option": 0 },
+{ "type": "T", "option": 4 },
+{ "type": "M", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "M", "option": 2 },
+{ "type": "0", "option": 0 },
+{ "type": "r", "option": 67 },
+{ "type": "0", "option": 0 },
+{ "type": "0", "option": 0 },
+{ "type": "0", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "r", "option": 3 },
+{ "type": "-", "option": 19 },
+{ "type": "0", "option": 0 },
+{ "type": "0", "option": 0 },
+{ "type": "0", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "r", "option": 67 },
+{ "type": "0", "option": 0 },
+{ "type": "0", "option": 0 },
+{ "type": "r", "option": 19 },
+{ "type": "-", "option": 19 },
+{ "type": "M", "option": 2 },
+{ "type": "M", "option": 0 },
+{ "type": "0", "option": 0 },
+{ "type": "0", "option": 0 },
+{ "type": "-", "option": 67 },
+{ "type": "0", "option": 0 },
+{ "type": "0", "option": 0 },
+{ "type": "M", "option": 2 },
+{ "type": "M", "option": 0 },
+{ "type": "0", "option": 0 },
+{ "type": "-", "option": 35 },
+{ "type": "0", "option": 0 },
+{ "type": "-", "option": 19 },
+{ "type": "0", "option": 0 },
+{ "type": "M", "option": 2 },
+{ "type": "M", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "M", "option": 0 },
+{ "type": "T", "option": 40 },
+{ "type": "M", "option": 0 },
+];
+
+
+function Plombier(container) {
+	this.container = container;
+}
+
+Plombier.prototype.init = function(data) {
+	var x, y, idx;
+	var body = "";
+	
+	for(y=idx=0;y<NB_LIGNE;y++) {
+		body += "<div class='row'>";
+		for(x=0;x<NB_COLONNE;x++,idx++) {
+			var clazz = (idx == 0 ? "select" : "");
+			var tuille = data[idx];
+			var rot = 0;
+			
+			if(tuille["type"] == "M") {
+				clazz += " mur";
+			} else if(tuille["type"] == "+") {
+				clazz += " croix";
+			} else if(tuille["type"] == "T") {
+				clazz += " bout";
+			} else if(tuille["type"] == "X") {
+				clazz += " doubleQuart";
+			} else if(tuille["type"] == "-") {
+				clazz += "droit";
+			} else if(tuille["type"] == "r") {
+				clazz += " quart";
+			} else {
+				clazz += " vide";
+			}
+			
+			if(tuille["option"] & 16) {
+				clazz += " rot90";
+				rot = 1;
+			} else if(tuille["option"] & 32) {
+				clazz += " rot180";
+				rot = 2;
+			} else if(tuille["option"] & 64) {
+				clazz += " rot270";
+				rot = 3;
+			}
+			
+			if(tuille["option"] & 1) {
+				clazz += " bougeable";
+			}
+			
+			if(tuille["option"] & 2) {
+				clazz += " tournable";
+			}
+			
+			if(tuille["option"] & 4) {
+				clazz += " depart";
+			}else if(tuille["option"] & 8) {
+				clazz += " arrive";
+			}
+		
+			body += "<div id='tuille-"+x+"-"+y+"' class='tuille "+clazz+"' data-x='"+x+"' data-y='"+y+"' data-rot='"+rot+"' data-type='"+tuille["type"]+"'></div>";
+		}
+		body += "</div>";
+	}
+	
+	this.container.html(body);
+	
+	this.x = this.y = 0;
+	this.currentTuille = this.getTuille(0, 0);
+}
+
+Plombier.prototype.getTuille = function(x, y) {
+	return $("#tuille-"+x+"-"+y, this.container)
+}
+
+Plombier.prototype.setCurrentTuille = function(tuille) {
+	$(".tuille", this.container).removeClass("select");
+	tuille.addClass("select");
+	this.currentTuille = tuille;
+	this.x = tuille.attr("data-x") * 1;
+	this.y = tuille.attr("data-y") * 1;
+}
+
+Plombier.prototype.rotate = function() {
+	if(this.currentTuille.hasClass("tournable")) {
+		var rot = this.currentTuille.attr("data-rot")*1;
+		
+		rot = (rot + 1) % 4;
+		
+		this.currentTuille.attr("data-rot", rot);
+		this.currentTuille.removeClass("rot90 rot180 rot270");
+		if(rot != 0) {
+			this.currentTuille.addClass("rot"+(rot*90));
+		}
+	}
+}
+
+Plombier.prototype.moveGauche = function() {
+	if(this.currentTuille.hasClass("bougeable")) {
+		if(this.x > 0) {
+			var overTuille = this.getTuille(this.x - 1, this.y);
+			if(overTuille.hasClass("vide")) {
+				this.move(this.currentTuille, overTuille);
+				
+				this.currentTuille = overTuille;
+				this.x--;
+			}
+		}
+	}
+}
+
+Plombier.prototype.moveHaut = function() {
+	if(this.currentTuille.hasClass("bougeable")) {
+		if(this.y > 0) {
+			var overTuille = this.getTuille(this.x, this.y - 1);
+			if(overTuille.hasClass("vide")) {
+				this.move(this.currentTuille, overTuille);
+				
+				this.currentTuille = overTuille;
+				this.y--;
+			}
+		}
+	}
+}
+
+Plombier.prototype.moveDroite = function() {
+	if(this.currentTuille.hasClass("bougeable")) {
+		if(this.x < NB_COLONNE - 1) {
+			var overTuille = this.getTuille(this.x + 1, this.y);
+			if(overTuille.hasClass("vide")) {
+				this.move(this.currentTuille, overTuille);
+				
+				this.currentTuille = overTuille;
+				this.x++;
+			}
+		}
+	}
+}
+
+Plombier.prototype.moveBas = function() {
+	if(this.currentTuille.hasClass("bougeable")) {
+		if(this.y < NB_LIGNE - 1) {
+			var overTuille = this.getTuille(this.x, this.y + 1);
+			if(overTuille.hasClass("vide")) {
+				this.move(this.currentTuille, overTuille);
+				
+				this.currentTuille = overTuille;
+				this.y++;
+			}
+		}
+	}
+}
+
+Plombier.prototype.move = function(src, dst) {
+	dst.attr("class", src.attr("class"));
+	dst.attr("data-rot", src.attr("data-rot"));
+	dst.attr("data-type", src.attr("data-type"));
+
+	src.attr("class", "tuille vide");
+	src.attr("data-rot", "0")
+	src.attr("data-type", "0")
+}
+
+Plombier.prototype.test = function() {
+	var depart = $(".tuille.depart", this.container);
+	var waterPosition = this.calculWaterOut(depart, { circuit: 0, entre: 0 });
+	var fini = false;
+	var perdu = false;
+	
+	while(!fini) {
+		var newX = waterPosition["x"];
+		var newY = waterPosition["y"];
+		var entryOrientation;
+		var nextEntry;
+		
+		switch(waterPosition["orientation"]) {
+			case 0:
+				newY--;
+				entryOrientation = 2;
+				break;
+			case 1:
+				newX++;
+				entryOrientation = 3;
+				break;
+			case 2:
+				newY++;
+				entryOrientation = 0;
+				break;
+			case 3:
+				newX--;
+				entryOrientation = 1;
+				break;
+		}
+		
+		var nextTuille = this.getTuille(newX, newY);
+		
+		if((nextEntry = this.hasGoodEntry(nextTuille, entryOrientation)) != null) {
+			if(nextTuille.hasClass("arrive")) {
+				fini = true;
+			} else {
+				waterPosition = this.calculWaterOut(nextTuille, nextEntry);
+			}
+		}else {
+			fini = true;
+			perdu = true;
+		}
+	}
+	
+	if(perdu) {
+		alert("Perdu !");
+	}else {
+		alert("Gagné !");
+	}
+}
+
+Plombier.prototype.calculWaterOut = function(tuille, entry) {
+	var orientation = tuilles[tuille.attr("data-type")][entry["circuit"]][1 - entry["entre"]];
+	var rot = tuille.attr("data-rot")*1;
+
+	return { x: tuille.attr("data-x")*1, y: tuille.attr("data-y")*1, orientation: (orientation + rot) % 4 };
+}
+
+Plombier.prototype.hasGoodEntry = function(tuille, entryOrientation) {
+	var circuits = tuilles[tuille.attr("data-type")];
+	
+	if(circuits != null) {
+		var rot = tuille.attr("data-rot")*1;
+		
+		for(var i=0;i<circuits.length;i++) {
+			if((circuits[i][0] + rot) % 4 == entryOrientation) {
+				return { circuit: i, entre: 0 };
+			}
+			
+			if((circuits[i][1] + rot) % 4 == entryOrientation) {
+				return { circuit: i, entre: 1 };
+			}
+		}
+	}
+	
+	return null;
+}
+
+$(document).on("click", ".tuille", function() {
+	pbl.setCurrentTuille($(this));
+});
+
+$(document).keydown(function(event) {
+	event.preventDefault();
+	if(event.which == 37) { //gauche
+		pbl.moveGauche();
+	}else if(event.which == 38) { //haut
+		pbl.moveHaut();
+	}else if(event.which == 39) { //droite
+		pbl.moveDroite();
+	}else if(event.which == 40) { //bas
+		pbl.moveBas();
+	}else if(event.which == 82) { //rotation
+		pbl.rotate();
+	}
+});
+		</script>
+	</head>
+	<body>
+		<div class="game-plombier">
+			<div class="plombier"></div>
+		</div>
+		<a href="#" class="test">Test</a>
+		<script>
+			var pbl = new Plombier($(".plombier"));
+			
+			pbl.init(test);
+			$(".test").click(function(e) {
+				e.preventDefault();
+				
+				pbl.test();
+			});
+		</script>
+	</body>
+</html>
