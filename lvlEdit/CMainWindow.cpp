@@ -1,5 +1,7 @@
 //-----------------------------------------------------------------------------------
 #include <QtDebug>
+#include <QFileDialog>
+#include <QInputDialog>
 #include "CMainWindow.h"
 //-----------------------------------------------------------------------------------
 CMainWindow::CMainWindow(QWidget *parent) : QMainWindow(parent) {
@@ -43,6 +45,11 @@ void CMainWindow::on_pbQuart_pressed(void) {
     wEditor->setFocus();
 }
 //-----------------------------------------------------------------------------------
+void CMainWindow::on_pbVide_pressed(void) {
+    wEditor->setCasePict(0);
+    wEditor->setFocus();
+}
+//-----------------------------------------------------------------------------------
 void CMainWindow::on_rb0_clicked(void) {
     wEditor->resetRotate();
     wEditor->setFocus();
@@ -63,7 +70,33 @@ void CMainWindow::on_rb270_clicked(void) {
     wEditor->setFocus();
 }
 //-----------------------------------------------------------------------------------
+void CMainWindow::on_cbBouge_clicked(void) {
+    wEditor->setOption(ecoBouge, cbBouge->isChecked());
+    wEditor->setFocus();
+}
+//-----------------------------------------------------------------------------------
+void CMainWindow::on_cbTourne_clicked(void) {
+    wEditor->setOption(ecoTourne, cbTourne->isChecked());
+    wEditor->setFocus();
+}
+//-----------------------------------------------------------------------------------
+void CMainWindow::on_cbDepart_clicked(void) {
+    wEditor->setOption(ecoDepart, cbDepart->isChecked());
+    wEditor->setFocus();
+}
+//-----------------------------------------------------------------------------------
+void CMainWindow::on_cbArrive_clicked(void) {
+    wEditor->setOption(ecoArrive, cbArrive->isChecked());
+    wEditor->setFocus();
+}
+//-----------------------------------------------------------------------------------
 void CMainWindow::on_wEditor_tuilleChange(const SCase& tuille) {
+
+    cbBouge->setChecked((tuille.option & ecoBouge) == ecoBouge);
+    cbTourne->setChecked((tuille.option & ecoTourne) == ecoTourne);
+    cbDepart->setChecked((tuille.option & ecoDepart) == ecoDepart);
+    cbArrive->setChecked((tuille.option & ecoArrive) == ecoArrive);
+
 	rb0->setChecked(true);
 	if((tuille.option & ecoR90) == ecoR90) {
 		rb90->setChecked(true);
@@ -74,6 +107,34 @@ void CMainWindow::on_wEditor_tuilleChange(const SCase& tuille) {
 	if((tuille.option & ecoR270) == ecoR270) {
 		rb270->setChecked(true);
 	}
+}
+//-----------------------------------------------------------------------------------
+void CMainWindow::on_actionNouveau_triggered(bool) {
+    wEditor->init();
+}
+//-----------------------------------------------------------------------------------
+void CMainWindow::on_actionOuvrir_triggered(bool) {
+    QString fileName = QFileDialog::getOpenFileName(this);
+    if(fileName != "") {
+        wEditor->load(fileName);
+    }
+
+}
+//-----------------------------------------------------------------------------------
+void CMainWindow::on_actionEnregistrer_triggered(bool) {
+    QString fileName = QFileDialog::getSaveFileName(this);
+    if(fileName != "") {
+        wEditor->write(fileName);
+    }
+}
+//-----------------------------------------------------------------------------------
+void CMainWindow::on_pbMelange_pressed(void) {
+    int step = 0;
+
+    step = QInputDialog::getInt(this, "Nombre de passes", "Combien de passes ?", 3);
+    if(step != 0) {
+        wEditor->melange(step);
+    }
 }
 //-----------------------------------------------------------------------------------
 

@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------------
 #include <QPainter>
 #include <QKeyEvent>
+#include <QMouseEvent>
 #include <QtDebug>
 #include "CWEditor.h"
 //-----------------------------------------------------------------------------------
@@ -76,6 +77,32 @@ void CWEditor::addRotate(ECaseOption rotateType) {
     repaint();
 }
 //-----------------------------------------------------------------------------------
+void CWEditor::setOption(ECaseOption option, bool value) {
+    game.setOption(option, value,  x, y);
+}
+//-----------------------------------------------------------------------------------
+void CWEditor::init(void) {
+    game.init();
+
+    repaint();
+}
+//-----------------------------------------------------------------------------------
+void CWEditor::load(QString fileName) {
+    game.load(fileName);
+
+    repaint();
+}
+//-----------------------------------------------------------------------------------
+void CWEditor::write(QString fileName) {
+    game.write(fileName);
+}
+//-----------------------------------------------------------------------------------
+void CWEditor::melange(int step) {
+    game.melange(step);
+
+    repaint();
+}
+//-----------------------------------------------------------------------------------
 void CWEditor::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     QPen cursorPen(Qt::red);
@@ -113,9 +140,10 @@ void CWEditor::paintEvent(QPaintEvent *) {
         }
     }
 
-    cursorPen.setStyle(Qt::DotLine);
+    cursorPen.setStyle(Qt::DashLine);
+    cursorPen.setWidth(2);
     painter.setPen(cursorPen);
-    painter.drawRect(this->x * CASE_WIDTH, this->y * CASE_HEIGHT, CASE_WIDTH, CASE_HEIGHT);
+    painter.drawRect(this->x * CASE_WIDTH + 2, this->y * CASE_HEIGHT + 2, CASE_WIDTH - 4, CASE_HEIGHT - 4);
 
 }
 //-----------------------------------------------------------------------------------
@@ -136,6 +164,13 @@ void CWEditor::keyPressEvent(QKeyEvent *event) {
     default:
         break;
     }
+}
+//-----------------------------------------------------------------------------------
+void CWEditor::mousePressEvent(QMouseEvent *event) {
+    x = event->x() / CASE_WIDTH;
+    y = event->y() / CASE_HEIGHT;
+
+    repaint();
 }
 //-----------------------------------------------------------------------------------
 QImage CWEditor::rotate(const QImage &image, ECaseOption option) {

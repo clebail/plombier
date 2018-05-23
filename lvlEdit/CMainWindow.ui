@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1058</width>
-    <height>783</height>
+    <height>803</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,110 +57,179 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0">
-           <widget class="QPushButton" name="pbMur">
-            <property name="focusPolicy">
-             <enum>Qt::WheelFocus</enum>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="lvledit.qrc">
-              <normaloff>:/image/mur.png</normaloff>:/image/mur.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>96</width>
-              <height>96</height>
-             </size>
-            </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QWidget" name="widget" native="true">
+            <layout class="QFormLayout" name="formLayout">
+             <property name="horizontalSpacing">
+              <number>6</number>
+             </property>
+             <property name="verticalSpacing">
+              <number>6</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QPushButton" name="pbMur">
+               <property name="focusPolicy">
+                <enum>Qt::WheelFocus</enum>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>96</width>
+                 <height>96</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QPushButton" name="pbCroix">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>96</width>
+                 <height>96</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QPushButton" name="pbDQuart">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>96</width>
+                 <height>96</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QPushButton" name="pbDepart">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>96</width>
+                 <height>96</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QPushButton" name="pbQuart">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>96</width>
+                 <height>96</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QPushButton" name="pbHoriz">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>96</width>
+                 <height>96</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QPushButton" name="pbCroix">
-            <property name="text">
-             <string/>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
-            <property name="icon">
-             <iconset resource="lvledit.qrc">
-              <normaloff>:/image/tCroix.png</normaloff>:/image/tCroix.png</iconset>
-            </property>
-            <property name="iconSize">
+            <property name="sizeHint" stdset="0">
              <size>
-              <width>96</width>
-              <height>96</height>
+              <width>20</width>
+              <height>40</height>
              </size>
             </property>
-           </widget>
+           </spacer>
           </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="pbDepart">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="lvledit.qrc">
-              <normaloff>:/image/tDepartFin.png</normaloff>:/image/tDepartFin.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>96</width>
-              <height>96</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QPushButton" name="pbDQuart">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="lvledit.qrc">
-              <normaloff>:/image/tDQuart.png</normaloff>:/image/tDQuart.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>96</width>
-              <height>96</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QPushButton" name="pbHoriz">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="lvledit.qrc">
-              <normaloff>:/image/tHorizontal.png</normaloff>:/image/tHorizontal.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>96</width>
-              <height>96</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QPushButton" name="pbQuart">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="lvledit.qrc">
-              <normaloff>:/image/tQuart.png</normaloff>:/image/tQuart.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>96</width>
-              <height>96</height>
-             </size>
-            </property>
+          <item>
+           <widget class="QWidget" name="widget_3" native="true">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QWidget" name="widget_4" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <property name="spacing">
+                 <number>6</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QPushButton" name="pbVide">
+                  <property name="text">
+                   <string>Vide la case</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pbMelange">
+                  <property name="text">
+                   <string>Mélange</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -311,7 +380,31 @@
      <height>29</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFichier">
+    <property name="title">
+     <string>Fic&amp;hier</string>
+    </property>
+    <addaction name="actionNouveau"/>
+    <addaction name="actionOuvrir"/>
+    <addaction name="actionEnregistrer"/>
+   </widget>
+   <addaction name="menuFichier"/>
   </widget>
+  <action name="actionNouveau">
+   <property name="text">
+    <string>Nouveau</string>
+   </property>
+  </action>
+  <action name="actionOuvrir">
+   <property name="text">
+    <string>Ouvrir</string>
+   </property>
+  </action>
+  <action name="actionEnregistrer">
+   <property name="text">
+    <string>Enregistrer</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -322,8 +415,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="lvledit.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

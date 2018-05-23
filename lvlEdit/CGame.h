@@ -14,7 +14,7 @@
 #define HORIZ                       '-'
 #define QUART                       'r'
 //-----------------------------------------------------------------------------------
-typedef enum { ecoBouge = 1, ecoTourne = 2, ecoDepart = 4, ecoR90 = 8, ecoR180 = 16, ecoR270 = 32, ecoNORot = 56} ECaseOption;
+typedef enum { ecoNone = 0, ecoBouge = 1, ecoTourne = 2, ecoDepart = 4, ecoArrive = 8, ecoR90 = 16, ecoR180 = 32, ecoR270 = 64, ecoNORot = 112} ECaseOption;
 //-----------------------------------------------------------------------------------
 typedef struct _SCase {
     char type;
@@ -32,8 +32,13 @@ public:
     void resetRotate(int x, int y);
     void resetRotate(int idx);
     void addRotate(ECaseOption rotateType, int x, int y);
+    void addRotate(ECaseOption rotateType, int idx);
+    void setOption(ECaseOption option, bool value, int x, int y);
+    void melange(int step);
 private:
     SCase plateau[NB_CASE];
+
+    void move(int from, int to);
 };
 //-----------------------------------------------------------------------------------
 #endif // __CGAME_H__

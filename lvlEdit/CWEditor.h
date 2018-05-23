@@ -22,9 +22,15 @@ public:
     void setCasePict(char type);
     void resetRotate(void);
     void addRotate(ECaseOption rotateType);
+    void setOption(ECaseOption option, bool value);
+    void init(void);
+    void load(QString fileName);
+    void write(QString fileName);
+    void melange(int steps);
 protected:
     virtual void paintEvent(QPaintEvent *);
     virtual void keyPressEvent(QKeyEvent *);
+    virtual void mousePressEvent(QMouseEvent *);
 private:
     int x, y;
     QHash<char, QString> picts;
